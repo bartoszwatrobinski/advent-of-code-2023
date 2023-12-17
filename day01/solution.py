@@ -24,3 +24,44 @@ def decrypt(text):
         break
     numbers.append(int(first_digit + last_digit))
   return sum(numbers)
+
+####### PART B #######
+
+def find_first_digit(text, digits):
+    for i in range(len(text)):
+        for word, digit in digits.items():
+            if text[i:].startswith(word):
+                return digit
+        if text[i].isdigit():
+            return text[i]
+    return None
+
+def find_last_digit(text, digits):
+    for i in range(len(text) - 1, -1, -1):
+        for word, digit in digits.items():
+            if text[i-len(word)+1:i+1] == word:
+                return digit
+        if text[i].isdigit():
+            return text[i]
+    return None
+
+def decrypt2(text):
+    digits = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9'}
+    text = text.split('\n')
+    numbers = []
+    
+    for line in text:
+        first_digit = find_first_digit(line, digits)
+        last_digit = find_last_digit(line, digits)
+
+        if first_digit and last_digit:
+            decrypted_number = int(first_digit + last_digit)
+            numbers.append(decrypted_number)
+            print(f"Original Line: '{line}', Decrypted Digits: {first_digit}{last_digit}")
+
+    total_sum = sum(numbers)
+    print(f"Total Sum: {total_sum}")
+    return total_sum
+
+
+decrypt2(text)
